@@ -4,3 +4,4 @@ target
 .bsp
 .java-version
 *.iml
+.DS_store

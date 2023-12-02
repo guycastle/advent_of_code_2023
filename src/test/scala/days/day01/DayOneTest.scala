@@ -1,9 +1,8 @@
 package days.day01
 
-import org.scalatest.matchers.must.Matchers
-import org.scalatest.wordspec.AnyWordSpec
+import days.BaseTest
 
-class DayOneTest extends AnyWordSpec with Matchers {
+class DayOneTest extends BaseTest:
 
   "extracting calibration values from input" must {
 
@@ -38,17 +37,17 @@ class DayOneTest extends AnyWordSpec with Matchers {
 
       "take into account overlap" in {
         val input: Seq[String] = Seq(
-          "twone", // 21
+          "twone",     // 21
           "eighthree", // 83
-          "sevenine", // 79
-          "nineight", // 98
-          "fiveight", // 58
+          "sevenine",  // 79
+          "nineight",  // 98
+          "fiveight",  // 58
           "threeight", // 38
-          "oneight", // 18
+          "oneight"    // 18
         )
 
         DayOne.partTwo(input) mustBe (21 + 83 + 79 + 98 + 58 + 38 + 18)
       }
     }
   }
-}
+end DayOneTest
