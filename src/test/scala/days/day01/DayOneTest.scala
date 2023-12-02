@@ -5,9 +5,9 @@ import org.scalatest.wordspec.AnyWordSpec
 
 class DayOneTest extends AnyWordSpec with Matchers {
 
-  "extracting calibration values from input" should {
+  "extracting calibration values from input" must {
 
-    "in part one" in {
+    "in part one calculate the correct output" in {
 
       val input: Seq[String] = Seq(
         "1abc2",
@@ -20,19 +20,35 @@ class DayOneTest extends AnyWordSpec with Matchers {
 
     }
 
-    "in part two" in {
-      val input: Seq[String] = Seq(
-        "two1nine",
-        "eightwothree",
-        "abcone2threexyz",
-        "xtwone3four",
-        "4nineeightseven2",
-        "zoneight234",
-        "7pqrstsixteen"
-      )
+    "in part two" must {
 
-      DayOne.partTwo(input) mustBe 281
+      "correctly calculate the example input" in {
+        val input: Seq[String] = Seq(
+          "two1nine",
+          "eightwothree",
+          "abcone2threexyz",
+          "xtwone3four",
+          "4nineeightseven2",
+          "zoneight234",
+          "7pqrstsixteen"
+        )
+
+        DayOne.partTwo(input) mustBe 281
+      }
+
+      "take into account overlap" in {
+        val input: Seq[String] = Seq(
+          "twone", // 21
+          "eighthree", // 83
+          "sevenine", // 79
+          "nineight", // 98
+          "fiveight", // 58
+          "threeight", // 38
+          "oneight", // 18
+        )
+
+        DayOne.partTwo(input) mustBe (21 + 83 + 79 + 98 + 58 + 38 + 18)
+      }
     }
   }
-
 }
