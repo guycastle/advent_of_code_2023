@@ -1,0 +1,6 @@
+project/project
+target
+.idea
+.bsp
+.java-version
+*.iml
