@@ -13,13 +13,14 @@ trait DailyChallenge[O] {
   def partTwo(input: Seq[String]): O
 
   protected def evaluate(): Unit =
-    printResult("one", partOne)
-    printResult("two", partTwo)
+    val readResult = InputReader.readLines(s"inputs/day${day.toString.padTo(2, '0').reverse}/input.txt")
+    printResult("one", readResult, partOne)
+    printResult("two", readResult, partTwo)
 
-  private def printResult(part: String, processInput: Seq[String] => O): Unit =
+  private def printResult(part: String, readResult: Try[Seq[String]], processInput: Seq[String] => O): Unit =
     val output =
       for
-        input  <- InputReader.readLines(s"inputs/day${day.toString.padTo(2, '0').reverse}/input.txt")
+        input  <- readResult
         output <- Try(processInput(input))
       yield output
 
