@@ -5,3 +5,4 @@ target
 .java-version
 *.iml
 .DS_store
+input.txt
