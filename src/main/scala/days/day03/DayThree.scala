@@ -5,7 +5,7 @@ import days.DailyChallenge
 import scala.annotation.tailrec
 import scala.util.matching.Regex
 
-object DayThree extends DailyChallenge[Int] {
+object DayThree extends DailyChallenge[Int]:
 
   override lazy val day: Int = 3
 
@@ -92,16 +92,17 @@ object DayThree extends DailyChallenge[Int] {
       )
 
   override def partOne(input: Seq[String]): Int = processRecursivelyForPartOne(
-    lines = input.drop(2),
+    lines   = input.drop(2),
     current = input.headOption.map(symbolScanner),
-    next = input.lift(1).map(symbolScanner)
+    next    = input.lift(1).map(symbolScanner)
   )
 
   override def partTwo(input: Seq[String]): Int = processRecursivelyForPartTwo(
-    lines = input.drop(2),
+    lines   = input.drop(2),
     current = input.headOption.map(gearScanner),
-    next = input.lift(1).map(gearScanner)
+    next    = input.lift(1).map(gearScanner)
   )
 
   @main def run(): Unit = evaluate()
-}
+
+end DayThree
