@@ -5,7 +5,7 @@ import days.DailyChallenge
 import scala.annotation.tailrec
 import scala.util.matching.Regex
 
-object DayFour extends DailyChallenge[Int] {
+object DayFour extends DailyChallenge[Int]:
 
   override lazy val day: Int = 4
 
@@ -57,4 +57,4 @@ object DayFour extends DailyChallenge[Int] {
     }
 
   @main def run(): Unit = evaluate()
-}
+end DayFour
