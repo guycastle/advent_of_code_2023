@@ -3,6 +3,8 @@ package days.day05
 import days.BaseTest
 import days.day05.DayFive.RangeMap
 
+import scala.collection.immutable.NumericRange
+
 class DayFiveTest extends BaseTest {
 
   lazy val input: Seq[String] = Seq(
@@ -43,26 +45,26 @@ class DayFiveTest extends BaseTest {
 
   "The almanac for day five" must {
     "be successfully parsed in part one" in {
-      val almanac = DayFive.almanacParser(input).value
+      val almanac = DayFive.almanacParser(input, DayFive.seedListParser).value
       almanac.seeds mustBe Seq(79, 14, 55, 13)
       almanac.seedsToSoils mustBe Seq(
         RangeMap(50, 52, 48),
-        RangeMap(98, 50, 2),
+        RangeMap(98, 50, 2)
       )
     }
 
-    /*"be successfully parsed in part two" in {
-      val expected: Seq[NumericRange[Long]] = Seq((55L until 68L), (79L until 93L))
-      DayFive.almanacParser(input, DayFive.seedRangeParser).value.seeds mustBe expected
-    }*/
+    "be successfully parsed in part two" in {
+      val expected: Set[NumericRange[Long]] = Set((79L until 93L), (55L until 68L))
+      DayFive.almanacParser(input, DayFive.seedRangeParser).value.seeds.toSet mustBe expected
+    }
 
     "calculate the correct closest location in part one" in {
       DayFive.partOne(input) mustBe 35
     }
 
-    /*"calculate the correct closest location in part two" in {
+    "calculate the correct closest location in part two" in {
       DayFive.partTwo(input) mustBe 46
-    }*/
+    }
   }
 
 }
