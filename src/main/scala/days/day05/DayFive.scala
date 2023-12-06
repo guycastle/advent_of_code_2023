@@ -123,4 +123,5 @@ object DayFive extends DailyChallenge[Long]:
     .sortBy(_.source)
 
   lazy val stringToLongs: String => Seq[Long] = str => numberRegex.findAllIn(str).map(_.toLong).toSeq
+
 end DayFive

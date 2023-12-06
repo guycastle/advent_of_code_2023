@@ -19,3 +19,5 @@ class DayFourTest extends BaseTest:
 
     "should return the correct number of cards won in part two" in:
       DayFour.partTwo(input) mustBe 30
+
+end DayFourTest

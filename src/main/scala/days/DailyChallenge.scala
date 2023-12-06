@@ -4,7 +4,7 @@ import utils.InputReader
 
 import scala.util.{Failure, Success, Try}
 
-trait DailyChallenge[O] {
+trait DailyChallenge[O]:
 
   lazy val day: Int
 
@@ -31,4 +31,5 @@ trait DailyChallenge[O] {
       case Failure(ex)     => println(s"Error while processing input for part $part of day $day: ${ex.getMessage}")
       case Success(result) =>
         println(s"The result for part $part of day $day is: $result (took ${System.currentTimeMillis - start}ms)")
-}
+
+end DailyChallenge

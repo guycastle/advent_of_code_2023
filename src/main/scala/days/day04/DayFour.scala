@@ -57,4 +57,5 @@ object DayFour extends DailyChallenge[Int]:
     }
 
   @main def run(): Unit = evaluate()
+
 end DayFour
