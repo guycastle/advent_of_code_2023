@@ -2,7 +2,7 @@ package days.day04
 
 import days.BaseTest
 
-class DayFourTest extends BaseTest {
+class DayFourTest extends BaseTest:
 
   lazy val input: Seq[String] = Seq(
     "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53",
@@ -13,14 +13,9 @@ class DayFourTest extends BaseTest {
     "Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11"
   )
 
-  "Evaluating the scratch card" must {
-    "return the correct amount of points in part one" in {
+  "Evaluating the scratch card" must:
+    "return the correct amount of points in part one" in:
       DayFour.partOne(input) mustBe 13
-    }
 
-    "should return the correct number of cards won in part two" in {
+    "should return the correct number of cards won in part two" in:
       DayFour.partTwo(input) mustBe 30
-    }
-  }
-
-}

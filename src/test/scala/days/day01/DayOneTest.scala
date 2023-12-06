@@ -4,9 +4,9 @@ import days.BaseTest
 
 class DayOneTest extends BaseTest:
 
-  "extracting calibration values from input" must {
+  "extracting calibration values from input" must:
 
-    "in part one calculate the correct output" in {
+    "in part one calculate the correct output" in:
 
       val input: Seq[String] = Seq(
         "1abc2",
@@ -17,11 +17,9 @@ class DayOneTest extends BaseTest:
 
       DayOne.partOne(input) mustBe 142
 
-    }
+    "in part two" must:
 
-    "in part two" must {
-
-      "correctly calculate the example input" in {
+      "correctly calculate the example input" in:
         val input: Seq[String] = Seq(
           "two1nine",
           "eightwothree",
@@ -33,9 +31,8 @@ class DayOneTest extends BaseTest:
         )
 
         DayOne.partTwo(input) mustBe 281
-      }
 
-      "take into account overlap" in {
+      "take into account overlap" in:
         val input: Seq[String] = Seq(
           "twone",     // 21
           "eighthree", // 83
@@ -47,7 +44,5 @@ class DayOneTest extends BaseTest:
         )
 
         DayOne.partTwo(input) mustBe (21 + 83 + 79 + 98 + 58 + 38 + 18)
-      }
-    }
-  }
+
 end DayOneTest

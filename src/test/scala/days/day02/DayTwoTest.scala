@@ -3,7 +3,7 @@ package days.day02
 import days.BaseTest
 
 class DayTwoTest extends BaseTest:
-  "The number of blocks in the bag" must {
+  "The number of blocks in the bag" must:
 
     val input = Seq(
       "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
@@ -13,12 +13,10 @@ class DayTwoTest extends BaseTest:
       "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"
     )
 
-    "guess correctly how many may possibly match the maximum block counts" in {
+    "guess correctly how many may possibly match the maximum block counts" in:
       DayTwo.partOne(input) mustBe 8
-    }
 
-    "calculate the power of the largest bag grabs" in {
+    "calculate the power of the largest bag grabs" in:
       DayTwo.partTwo(input) mustBe 2286
-    }
-  }
+
 end DayTwoTest

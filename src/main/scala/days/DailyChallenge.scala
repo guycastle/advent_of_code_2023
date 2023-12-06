@@ -14,10 +14,13 @@ trait DailyChallenge[O] {
 
   protected def evaluate(): Unit =
     val readResult = InputReader.readLines(s"inputs/day${day.toString.padTo(2, '0').reverse}/input.txt")
-    printResult("one", readResult, partOne)
-    printResult("two", readResult, partTwo)
+    printResult(part = "one", readResult = readResult, processInput = partOne)
+    printResult(part = "two", readResult = readResult, processInput = partTwo)
 
-  private def printResult(part: String, readResult: Try[Seq[String]], processInput: Seq[String] => O): Unit =
+  private def printResult(part:         String,
+                          readResult:   Try[Seq[String]],
+                          start:        Long = System.currentTimeMillis,
+                          processInput: Seq[String] => O): Unit =
     val output =
       for
         input  <- readResult
@@ -26,5 +29,6 @@ trait DailyChallenge[O] {
 
     output match
       case Failure(ex)     => println(s"Error while processing input for part $part of day $day: ${ex.getMessage}")
-      case Success(result) => println(s"The result for part $part of day $day is: $result")
+      case Success(result) =>
+        println(s"The result for part $part of day $day is: $result (took ${System.currentTimeMillis - start}ms)")
 }
