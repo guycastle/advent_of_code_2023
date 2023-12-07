@@ -66,7 +66,8 @@ object DayFive extends DailyChallenge[Long]:
                      if closest.forall(_ > seedLocation) then Some(seedLocation) else closest
                    case (closest, range: NumericRange[Long]) => range.foldLeft(closest) {
                        case (rangeClosest, seed) =>
-                         println(
+                         val currentCount = counter.incrementAndGet
+                         if currentCount % 1000000 == 0 then println(
                            s"Evaluating seed $seed (${pctFmt.format(counter.incrementAndGet.toDouble / almanac.totalSeeds)})"
                          )
                          val seedLocation = almanac.locationForSeed(seed)
