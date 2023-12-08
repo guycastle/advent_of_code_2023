@@ -4,39 +4,55 @@ import days.DailyChallenge
 
 import scala.annotation.tailrec
 
-object DayEight extends DailyChallenge[Int]:
+object DayEight extends DailyChallenge[BigInt]:
 
   override lazy val day: Int = 8
 
-  override def partOne(input: Seq[String]): Int =
+  override def partOne(input: Seq[String]): BigInt =
     stepsToNavigateAcrossDesert(map = parseInput(input), startAt = "AAA", endAt = "ZZZ")
 
-  override def partTwo(input: Seq[String]): Int = 0
+  override def partTwo(input: Seq[String]): BigInt =
+    stepsToNavigateAcrossDesert(map = parseInput(input), startAt = "A", endAt = "Z")
 
   @main def run(): Unit = evaluate()
 
-  private def stepsToNavigateAcrossDesert(map: MapOfTheDesert, startAt: String, endAt: String): Int =
+  private def stepsToNavigateAcrossDesert(map: MapOfTheDesert, startAt: String, endAt: String): BigInt =
     @tailrec
-    def navigate(directions: Seq[Char], turn: Turn, turnCount: Int = 0): Int = directions.headOption match
+    def navigate(directions: Seq[Char], turn: Turn, turnCount: BigInt = 0): BigInt = directions.headOption match
       case Some(direction) =>
         val next = turn.to(direction)
-        if next == endAt then turnCount + 1
-        else navigate(directions = directions.drop(1), turn = map.turns.getTurn(next), turnCount = turnCount + 1)
-      case None            => navigate(map.directions, turn, turnCount)
-    navigate(map.directions, map.turns.getTurn(startAt))
+        if next endsWith endAt then turnCount + 1
+        else
+          navigate(
+            directions = directions.drop(1),
+            turn       = map.turns.getTurn(next),
+            turnCount  = turnCount + 1
+          )
+      case None            => navigate(directions = map.directions, turn = turn, turnCount = turnCount)
 
-  case class Turn(left: String, right: String) {
+    lowestCommonMultiplier(map.turns.collect {
+      case (key, turn) if key endsWith startAt => navigate(map.directions, turn)
+    })
+
+  case class Turn(left: String, right: String):
     lazy val to: Char => String =
       case 'L'   => left
       case 'R'   => right
       case other => throw IllegalArgumentException(s"'$other' is not a valid direction")
-  }
+  end Turn
 
   case class MapOfTheDesert(directions: String, turns: Map[String, Turn])
 
+  lazy val lowestCommonMultiplier: Iterable[BigInt] => BigInt = _.reduce(_ lcm _)
+
   extension (turns: Map[String, Turn])
-    def getTurn(key: String): Turn =
+    private def getTurn(key: String): Turn =
       turns.getOrElse(key, throw new IllegalArgumentException(s"Position $key not found in map!"))
+  end extension
+
+  extension (bi:          BigInt)
+    // https://en.wikipedia.org/wiki/Least_common_multiple#Using_the_greatest_common_divisor
+    private def lcm(that: BigInt): BigInt = (bi * that) / (bi gcd that)
   end extension
 
   lazy val parseInput: Seq[String] => MapOfTheDesert = input =>

@@ -25,6 +25,19 @@ class DayEightTest extends BaseTest:
     "ZZZ = (ZZZ, ZZZ)"
   )
 
+  lazy val test3: Seq[String] = Seq(
+    "LR",
+    "",
+    "11A = (11B, XXX)",
+    "11B = (XXX, 11Z)",
+    "11Z = (11B, XXX)",
+    "22A = (22B, XXX)",
+    "22B = (22C, 22C)",
+    "22C = (22Z, 22Z)",
+    "22Z = (22B, 22B)",
+    "XXX = (XXX, XXX)"
+  )
+
   "Day eight's solution" must:
 
     "parse the input correctly" in:
@@ -41,5 +54,11 @@ class DayEightTest extends BaseTest:
 
     "correctly iterate the directions again if destination is not reached during the first iteration" in:
       DayEight.partOne(test2) mustBe 6
+
+    "correctly determine the required number of steps in part two" in:
+      DayEight.partTwo(test3) mustBe 6
+
+    "calculate the lowest common multiplier correctly" in:
+      DayEight.lowestCommonMultiplier(Seq(8, 9, 21)) mustBe 504
 
 end DayEightTest
