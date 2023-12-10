@@ -13,7 +13,7 @@ trait DailyChallenge[O]:
   def partTwo(input: Seq[String]): O
 
   protected def evaluate(): Unit =
-    val readResult = InputReader.readLines(s"inputs/day${day.toString.padTo(2, '0').reverse}/input.txt")
+    val readResult = InputReader.readLines(s"inputs/day${String.format("%02d", day)}/input.txt")
     printResult(part = "one", readResult = readResult, processInput = partOne)
     printResult(part = "two", readResult = readResult, processInput = partTwo)
 
