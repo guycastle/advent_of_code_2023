@@ -8,9 +8,9 @@ object DayThirteen extends DailyChallenge[Long]:
 
   override lazy val day: Int = 13
 
-  override def partOne(input: Seq[String]): Long = parseInput(input).map(reflectionIndex).sum
+  override def partOne(input: Seq[String]): Long = parseInput(input).map(reflectionIndex(_)).sum
 
-  override def partTwo(input: Seq[String]): Long = 0
+  override def partTwo(input: Seq[String]): Long = parseInput(input).map(reflectionIndex(_, true)).sum
 
   @main def run(): Unit = evaluate()
 
@@ -25,23 +25,32 @@ object DayThirteen extends DailyChallenge[Long]:
         split(input = remnant.drop(1), patterns = patterns :+ pattern)
     split(lines)
 
-  private lazy val reflectsAt: Pattern => Option[Int] = pattern =>
+  private def reflectsAt(pattern: Pattern, withSmudge: Boolean = false): Option[Int] =
     lazy val mirrorsAt: Int => Boolean = idx =>
       val distance = math.min(pattern.size - idx, idx)
-      pattern.slice(idx, idx + distance) == pattern.slice(idx - distance, idx).reverse
+      if withSmudge then
+        val smudges = (0 until distance).foldLeft(0L):
+          case (smudges, i) =>
+            val diff =
+              for
+                fwd <- pattern.lift(idx + i)
+                bck <- pattern.lift(idx - (i + 1))
+              yield fwd.zip(bck).count(_ != _)
+            smudges + diff.getOrElse(0)
+        smudges == 1
+      else pattern.slice(idx, idx + distance) == pattern.slice(idx - distance, idx).reverse
 
     pattern.indices.collectFirst:
       // Don't bother checking the first index
       case idx if idx != 0 && mirrorsAt(idx) => idx
 
-  lazy val reflectionIndex: Pattern => Int = pattern =>
-    reflectsAt(pattern)
-      .map(_ * 100)
-      .orElse(reflectsAt(pattern.transpose.map(_.mkString)))
-      .getOrElse(
-        throw new IllegalArgumentException(
-          s"Pattern has no reflection index: ${pattern.map(_.mkString).mkString("\n", "\n", "")}"
-        )
+  def reflectionIndex(pattern: Pattern, withSmudge: Boolean = false): Int = reflectsAt(pattern, withSmudge)
+    .map(_ * 100)
+    .orElse(reflectsAt(pattern.transpose.map(_.mkString), withSmudge))
+    .getOrElse(
+      throw new IllegalArgumentException(
+        s"Pattern has no reflection index: ${pattern.map(_.mkString).mkString("\n", "\n", "")}"
       )
+    )
 
 end DayThirteen
