@@ -42,17 +42,7 @@ object DayEleven extends DailyChallenge[Long]:
             (rows :+ expandedRowGalaxies, newYOffset)
         expanded
       case None      => throw new IllegalArgumentException("Empty universe")
-
-    @tailrec
-    def pair(galaxies: Seq[Galaxy], pairs: Seq[GalaxyPair] = Seq.empty): Seq[GalaxyPair] = galaxies.headOption match
-      case Some(galaxy) if galaxies.size >= 2 =>
-        val newPairs = galaxies
-          .drop(1)
-          .map: other =>
-            (galaxy, other)
-        pair(galaxies = galaxies.drop(1), pairs = pairs ++ newPairs)
-      case _                                  => pairs
-
-    pair(universe.flatten)
+      
+    universe.flatten.combinations(2)
 
 end DayEleven
