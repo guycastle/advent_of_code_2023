@@ -29,7 +29,7 @@ object DayTwelve extends DailyChallenge[Long]:
       contiguousDamaged = cont.drop(1).withFilter(_ != ',').map(_.toString.toInt)
     )
 
-  //TODO solve this
+  // TODO solve this
   def countArrangements(record: Record, count: Long = 0L): Long = ???
 
 end DayTwelve
