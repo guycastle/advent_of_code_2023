@@ -29,3 +29,5 @@ class DayElevenTest extends BaseTest:
     "correctly calculate the total distance between each pair in part two" in:
       DayEleven.parseInput(test, 9).map(DayEleven.distanceBetweenGalaxies).sum mustBe 1030
       DayEleven.parseInput(test, 99).map(DayEleven.distanceBetweenGalaxies).sum mustBe 8410
+
+end DayElevenTest
