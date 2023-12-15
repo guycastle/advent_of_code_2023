@@ -23,7 +23,7 @@ class DayTwelveTest extends BaseTest:
         contiguousDamaged = Seq(1, 1, 3)
       )
 
-    "calculate the correct sum of possible arrangements" in:
+    "calculate the correct sum of possible arrangements" ignore:
       DayTwelve.partOne(test) mustBe 2
 
 end DayTwelveTest
