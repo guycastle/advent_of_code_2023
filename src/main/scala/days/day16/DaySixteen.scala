@@ -6,10 +6,22 @@ object DaySixteen extends DailyChallenge[Int]:
   override lazy val day: Int = 16
 
   override def partOne(input: Seq[String]): Int =
-    val (_, contraption) = navigate(contraption = parseInput(input))
-    contraption.map(_.count(_.isEnergised)).sum
+    countEnergised(startingPoint = Coords(x = 0, y = 0), direction = Direction.Right, contraption = parseInput(input))
 
-  override def partTwo(input: Seq[String]): Int = 0
+  override def partTwo(input: Seq[String]): Int =
+    val contraption      = parseInput(input)
+    val columnCount      = contraption.head.size
+    val rowCount         = contraption.size
+    val horizontalStarts = (0 until rowCount).flatMap(y =>
+      Seq((Coords(x = 0, y = y), Direction.Right), (Coords(x = columnCount - 1, y = y), Direction.Left))
+    )
+    val verticalStarts   = (0 until columnCount).flatMap(x =>
+      Seq((Coords(x = x, y = 0), Direction.Down), (Coords(x = x, y = rowCount - 1), Direction.Up))
+    )
+    (horizontalStarts ++ verticalStarts).foldLeft(0):
+      case (max, (coords, direction)) =>
+        val energised = countEnergised(startingPoint = coords, direction = direction, contraption = contraption)
+        if energised > max then energised else max
 
   @main def run(): Unit = evaluate()
 
@@ -24,9 +36,10 @@ object DaySixteen extends DailyChallenge[Int]:
   end Direction
 
   type Contraption = Seq[Seq[Tile]]
-  extension (c: Contraption)
-    def print: Unit = c.map(_.map(t => if t.isEnergised then '#' else '.').mkString(" ")).foreach(println)
-  end extension
+
+  private def countEnergised(startingPoint: Coords, direction: Direction, contraption: Contraption): Int =
+    val (_, mapped) = navigate(c = startingPoint, dir = direction, contraption = contraption)
+    mapped.map(_.count(_.isEnergised)).sum
 
   /**
     * Navigate the contraption recursively
@@ -34,17 +47,17 @@ object DaySixteen extends DailyChallenge[Int]:
     *   the coordinates to evaluate
     * @param dir
     *   the direction we're coming from
-    * @param splits
-    *   a list of coordinates where the beam was already split. So we don't go through it twice
     * @param contraption
     *   the contraption
+    * @param splits
+    *   a list of coordinates where the beam was already split. So we don't go through it twice
     * @return
     *   an updated contraption with updated tiles that were energised
     */
-  private def navigate(c:           Coords = Coords(x = 0, y = 0),
-                       dir:         Direction = Direction.Right,
-                       splits:      Seq[Coords] = Seq.empty,
-                       contraption: Contraption): (Seq[Coords], Contraption) = (for
+  private def navigate(c:           Coords,
+                       dir:         Direction,
+                       contraption: Contraption,
+                       splits:      Seq[Coords] = Seq.empty): (Seq[Coords], Contraption) = (for
     row  <- contraption.lift(c.y)
     tile <- row.lift(c.x)
   yield (row, tile)) match
@@ -53,11 +66,12 @@ object DaySixteen extends DailyChallenge[Int]:
         if !tile.isEnergised then contraption.updated(c.y, row.updated(c.x, tile.copy(isEnergised = true)))
         else contraption
       val newDirs            = tile.action(dir)
-      if newDirs.size == 1 then navigate(newDirs.head.go(c), newDirs.head, splits, updatedContraption)
+      if newDirs.size == 1 then
+        navigate(c = newDirs.head.go(c), dir = newDirs.head, contraption = updatedContraption, splits = splits)
       else if !splits.contains(c) then
         newDirs.foldLeft((splits :+ c, updatedContraption)):
           case ((splitPoints, currentContraption), newDir) =>
-            navigate(newDir.go(c), newDir, splitPoints, currentContraption)
+            navigate(c = newDir.go(c), dir = newDir, contraption = currentContraption, splits = splitPoints)
       else (splits, contraption)
     case None              => (splits, contraption)
 

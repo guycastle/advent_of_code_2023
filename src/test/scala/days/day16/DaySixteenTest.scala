@@ -21,3 +21,6 @@ class DaySixteenTest extends BaseTest:
 
     "correctly navigate the contraption and count the energised tiles" in:
       DaySixteen.partOne(input) mustBe 46
+
+    "correctly find the starting point yielding the maximum amount of energised tiles" in:
+      DaySixteen.partTwo(input) mustBe 51
